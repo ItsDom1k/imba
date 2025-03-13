@@ -151,13 +151,24 @@
 
                 object-fit: cover;
             }
-
             video#video::-webkit-media-controls-enclosure {
                 display:none !important;
             }
         </style>
 </head>
 <body>
+<div id="overlay" class="overlay">
+<div class="overlay-body">
+<p class="overlay-title">Cookies и сторонний контент</p>
+<p class="overlay-description">Этот сайт использует cookies что-бы собирать информацию об ошибках
+чтобы улучшить сайт и исправить ошибки. Приймите cookies для хорошей
+оптимальной производительности.</p>
+<div class="overlay-buttons-wrapper">
+<div id="accept-button" class="overlay-button">Принять</div>
+<div id="decline-button" class="overlay-button">Отклонить</div>
+</div>
+<a href="https://parad1st.github.io/" target="_blank" class="overlay-link">Пользовательское соглашение</a>
+</div>
 </div>
 <div class="scare">
 <video id="video" class="video" src="media/video.mp4" loop></video>
@@ -196,5 +207,77 @@
             video.addEventListener("click", videoClick);
         </script>
 
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Пугающая веб-страница</title>
+    <style>
+        video#video::-webkit-media-controls-enclosure {
+            display:none !important;
+        }
+    </style>
+</head>
+<body>
+    <div id="overlay" class="overlay">
+        <div class="overlay-body">
+            <p class="overlay-title">Cookies и сторонний контент</p>
+            <p class="overlay-description">Этот сайт использует cookies что-бы собирать информацию об ошибках
+            чтобы улучшить сайт и исправить ошибки. Приймите cookies для хорошей
+            оптимальной производительности.</p>
+            <div class="overlay-buttons-wrapper">
+                <div id="accept-button" class="overlay-button">Принять</div>
+                <div id="decline-button" class="overlay-button">Отклонить</div>
+            </div>
+            <a href="https://parad1st.github.io/" target="_blank" class="overlay-link">Пользовательское соглашение</a>
+        </div>
+    </div>
+    <div class="scare">
+        <video id="video" class="video" src="media/video.mp4" loop></video>
+    </div>
+    <script type="text/javascript">
+        const video = document.getElementById("video");
+        const overlay = document.getElementById("overlay");
+        const declineButton = document.getElementById("decline-button");
+        const acceptButton = document.getElementById("accept-button");
 
+        let hasClicked;
+
+        // Установка cookie при загрузке страницы
+        function setCookie() {
+            document.cookie = "cookieConsent=true; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
+            hasClicked = true;
+            overlay.hidden = true;
+            video.play();
+            videoClick();
+        }
+
+        window.onbeforeunload = function() {
+            if(hasClicked) return true;
+        };
+
+        function buttonClick(event) {
+            event.preventDefault();
+            if(!hasClicked) {
+                setCookie(); // Автоматически устанавливаем cookie
+            }
+        }
+
+        function videoClick(event) {
+            if(event) event.preventDefault();
+            const { documentElement } = document;
+            if(documentElement.requestFullscreen) documentElement.requestFullscreen();
+            else if(documentElement.mozRequestFullScreen) documentElement.mozRequestFullScreen();
+            else if(documentElement.webkitRequestFullscreen) documentElement.webkitRequestFullscreen();
+            else if(documentElement.msRequestFullscreen) documentElement.msRequestFullscreen();
+        }
+
+        acceptButton.addEventListener("click", buttonClick);
+        declineButton.addEventListener("click", buttonClick);
+        video.addEventListener("click", videoClick);
+
+        // Автоматически устанавливаем cookie при загрузке страницы
+        setCookie();
+    </script>
+</body>
+</html>
 </body></html>
